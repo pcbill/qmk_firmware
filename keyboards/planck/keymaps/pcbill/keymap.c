@@ -116,19 +116,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Raise
  * ,-----------------------------------------------------------------------------------.
- * |  $   |  _   |  \   |   #  |   @  |   [  |   ]  |  1   |  2   |  3   |  .   | Del  |
+ * |  $   |  _   |  \   |   #  |   @  |  {   |  }   |  1   |  2   |  3   |  .   | Del  |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |  +   |  -   |  *   |  /   |  =   |  (   |  )   |  4   |  5   |  6   |  0   | Enter|
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |  ^   |  &   |  |   |  ?   |  !   |  {   |  }   |  7   |  8   |  9   |      | Shift|
+ * |  ^   |  &   |  |   |  ?   |  !   |  [   |  ]   |  7   |  8   |  9   |      | Shift|
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |  ~   |   %  |  `   | Lower|Space |  Shift      |Raise | Lower| Alt  |  App | Ctrl |
  * `-----------------------------------------------------------------------------------'
  */
 [_RAISE] = {
-  {KC_DLR,  KC_UNDS, KC_BSLS, KC_HASH,    KC_AT,   KC_LBRC, KC_RBRC, KC_1,    KC_2,    KC_3, KC_DOT, KC_DEL},
+  {KC_DLR,  KC_UNDS, KC_BSLS, KC_HASH,    KC_AT,   KC_LCBR, KC_RCBR, KC_1,    KC_2,    KC_3, KC_DOT, KC_DEL},
   {KC_PLUS, KC_MINS, KC_ASTR, KC_SLSH,    KC_EQL,  KC_LPRN, KC_RPRN, KC_4,    KC_5,    KC_6, KC_0,   KC_ENT},
-  {KC_CIRC, KC_AMPR, KC_PIPE, KC_QUESTION,KC_EXLM, KC_LCBR, KC_RCBR, KC_7,    KC_8,    KC_9, _______,KC_RSFT},
+  {KC_CIRC, KC_AMPR, KC_PIPE, KC_QUESTION,KC_EXLM, KC_LBRC, KC_RBRC, KC_7,    KC_8,    KC_9, _______,KC_RSFT},
   {KC_TILD, KC_PERC, KC_GRV,  LOWER,      KC_SPC,  KC_LSFT, KC_LSFT, RAISE,   LOWER,  KC_RALT,KC_APP,KC_RCTL}
 },
 
