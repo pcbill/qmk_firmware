@@ -104,7 +104,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Gherkin Dvorak
  * ,----------------------------------------------------------------------------------------------.
- * |      |tab     |ent/ctrl |space/alt|   P  |   Y  |   F  |   G   |   C  |   R  |L/raise |      |
+ * |      |tab     |space/alt| ent/ctrl|   P  |   Y  |   F  |   G   |   C  |   R  |L/raise |      |
  * |------+--------+---------+---------+------+-------------+-------+------+------+--------+------|
  * |      |A       |   O     |   E     |   U  |   I  |   D  |   H   |   T  |   N  |S/ghelow|      |
  * |------+--------+---------+---------+------+------|------+-------+------+------+--------+------|
@@ -114,7 +114,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `----------------------------------------------------------------------------------------------'
  */
 [_GHERKIN_DVORAK] = {
-  {KC_NO, KC_TAB,     CTL_T(KC_ENT),ALT_T(KC_SPC), KC_P,   KC_Y, KC_F,    KC_G,   KC_C,   KC_R,   LT(4,KC_L),KC_NO},
+  {KC_NO, KC_TAB,     ALT_T(KC_SPC),CTL_T(KC_ENT), KC_P,   KC_Y, KC_F,    KC_G,   KC_C,   KC_R,   LT(4,KC_L),KC_NO},
   {KC_NO, KC_A,                KC_O,KC_E,          KC_U,   KC_I, KC_D,    KC_H,   KC_T,   KC_N,   LT(6,KC_S),KC_NO},
   {KC_NO, SFT_T(KC_ESC),GUI_T(KC_Q),KC_J,          KC_K,   KC_X, KC_B,    KC_M,   KC_W,   KC_V,   LT(7,KC_Z),KC_NO},
   {KC_NO, KC_NO,              KC_NO,KC_NO,         KC_NO,  KC_NO,KC_NO,   KC_NO, KC_NO,  KC_NO,        KC_NO,KC_NO}
@@ -158,20 +158,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Gherkin Lower
  * ,-----------------------------------------------------------------------------------.
- * |      |  '   |   ,  |   .  |  #   | MUTE |BL_TOG|Pg Up | UP   | Pg Dn| Home |      |
+ * |      |  '   |   ,  |   .  |  #   |  {   |  }   |Pg Up | UP   | Pg Dn| Home |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |  -   |  *   |  /   |  =   | Vol+ |BL_INC| LEFT | DOWN |RIGHT |      |      |
+ * |      |  -   |  *   |  /   |  =   |  (   |  )   | LEFT | DOWN |RIGHT |      |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |  ;   |  |   |  ?   |  !   | Vol- |BL_DEC| BSPC |insert| DEL  | End  |      |
+ * |      |  ;   |  |   |  ?   |  !   |  [   |  ]   | BSPC |insert| DEL  | End  |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      |      |      |      |      |      |      |      |      |      |      |      |
  * `-----------------------------------------------------------------------------------'
  */
 [_GHELOW] = {
-  {KC_NO,  KC_QUOT, KC_COMM, KC_DOT,     KC_HASH, KC_MUTE, BL_TOGG, KC_PGUP, KC_UP,  KC_PGDN,KC_HOME,KC_NO},
-  {KC_NO,  KC_MINS, KC_ASTR, KC_SLSH,    KC_EQL,  KC_VOLU, BL_INC,  KC_LEFT, KC_DOWN,KC_RGHT,_______,KC_NO},
-  {KC_NO,  KC_SCLN, KC_PIPE, KC_QUESTION,KC_EXLM, KC_VOLD, BL_DEC,  KC_BSPC, KC_INS, KC_DEL, KC_END, KC_NO},
-  {KC_NO,  KC_NO,   KC_NO,   KC_NO,      KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,  KC_NO,  KC_NO,  KC_NO}
+  {KC_NO,  KC_QUOT, KC_COMM, KC_DOT,     KC_HASH, KC_LCBR, KC_RCBR,  KC_PGUP, KC_UP,  KC_PGDN,KC_HOME,KC_NO},
+  {KC_NO,  KC_MINS, KC_ASTR, KC_SLSH,    KC_EQL,  KC_LPRN, KC_RPRN,  KC_LEFT, KC_DOWN,KC_RGHT,_______,KC_NO},
+  {KC_NO,  KC_SCLN, KC_PIPE, KC_QUESTION,KC_EXLM, KC_LBRC, KC_RBRC,  KC_BSPC, KC_INS, KC_DEL, KC_END, KC_NO},
+  {KC_NO,  KC_NO,   KC_NO,   KC_NO,      KC_NO,   KC_NO,   KC_NO,    KC_NO,   KC_NO,  KC_NO,  KC_NO,  KC_NO}
 },
 
 /* Gherkin 3
