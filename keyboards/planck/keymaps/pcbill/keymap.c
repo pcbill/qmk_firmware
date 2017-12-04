@@ -23,19 +23,25 @@ enum planck_layers {
   _QWERTY,
   _COLEMAK,
   _DVORAK,
-  _LOWER,
+  _GHERKIN_DVORAK,
   _RAISE,
+  _LOWER,
+  _GHELOW,
+  _GHE3,
   _PLOVER,
-  _ADJUST
+  _ADJUST,
 };
 
 enum planck_keycodes {
   QWERTY = SAFE_RANGE,
   COLEMAK,
   DVORAK,
-  PLOVER,
-  LOWER,
+  GHERKIN_DVORAK,
   RAISE,
+  LOWER,
+  GHELOW,
+  GHE3,
+  PLOVER,
   BACKLIT,
   EXT_PLV
 };
@@ -80,7 +86,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Dvorak
  * ,-----------------------------------------------------------------------------------.
- * | Tab  |   "  |   ,  |   .  |   P  |   Y  |   F  |   G  |   C  |   R  |   L  | Bksp |
+ * | Tab  |   '  |   ,  |   .  |   P  |   Y  |   F  |   G  |   C  |   R  |   L  | Bksp |
  * |------+------+------+------+------+-------------+------+------+------+------+------|
  * | Ctrl |   A  |   O  |   E  |   U  |   I  |   D  |   H  |   T  |   N  |   S  | Enter|
  * |------+------+------+------+------+------|------+------+------+------+------+------|
@@ -94,6 +100,42 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   {KC_LCTL, KC_A,    KC_O,    KC_E,    KC_U,    KC_I,    KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    KC_ENT },
   {KC_LSFT, KC_SCLN, KC_Q,    KC_J,    KC_K,    KC_X,    KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,    KC_RSFT},
   {KC_ESC,  KC_LGUI, KC_LALT, LOWER,   KC_SPC,  KC_LSFT, KC_LSFT, RAISE,   LOWER, KC_PGUP, KC_PGDN,   KC_RCTL}
+},
+
+/* Gherkin Dvorak
+ * ,----------------------------------------------------------------------------------------------.
+ * |      |tab     |ent/ctrl |space/alt|   P  |   Y  |   F  |   G   |   C  |   R  |L/raise |      |
+ * |------+--------+---------+---------+------+-------------+-------+------+------+--------+------|
+ * |      |A       |   O     |   E     |   U  |   I  |   D  |   H   |   T  |   N  |S/ghelow|      |
+ * |------+--------+---------+---------+------+------|------+-------+------+------+--------+------|
+ * |      |esc/sft |   Q/gui |    J    |   K  |   X  |   B  |   M   |   W  |   V  |Z/ghe3  |      |
+ * |------+--------+---------+---------+------+------+------+-------+------+------+--------+------|
+ * |      |        |         |         |      |      |      |       |      |      |        |      |
+ * `----------------------------------------------------------------------------------------------'
+ */
+[_GHERKIN_DVORAK] = {
+  {KC_NO, KC_TAB,     CTL_T(KC_ENT),ALT_T(KC_SPC), KC_P,   KC_Y, KC_F,    KC_G,   KC_C,   KC_R,   LT(4,KC_L),KC_NO},
+  {KC_NO, KC_A,                KC_O,KC_E,          KC_U,   KC_I, KC_D,    KC_H,   KC_T,   KC_N,   LT(6,KC_S),KC_NO},
+  {KC_NO, SFT_T(KC_ESC),GUI_T(KC_Q),KC_J,          KC_K,   KC_X, KC_B,    KC_M,   KC_W,   KC_V,   LT(7,KC_Z),KC_NO},
+  {KC_NO, KC_NO,              KC_NO,KC_NO,         KC_NO,  KC_NO,KC_NO,   KC_NO, KC_NO,  KC_NO,        KC_NO,KC_NO}
+},
+
+/* Raise
+ * ,-----------------------------------------------------------------------------------.
+ * |  $   |  _   |  \   |   #  |   @  |  {   |  }   |  1   |  2   |  3   |      | Del  |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * |  +   |  -   |  *   |  /   |  =   |  (   |  )   |  4   |  5   |  6   |  0   | Enter|
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * |  ^   |  &   |  |   |  ?   |  !   |  [   |  ]   |  7   |  8   |  9   |      | Shift|
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * |  ~   |   %  |  `   | Lower|Space |  Shift      |Raise | Lower|Pg Up |Pg Dn | Ctrl |
+ * `-----------------------------------------------------------------------------------'
+ */
+[_RAISE] = {
+  {KC_DLR,  KC_UNDS, KC_BSLS, KC_HASH,    KC_AT,   KC_LCBR, KC_RCBR, KC_1,    KC_2,    KC_3, _______, KC_DEL},
+  {KC_PLUS, KC_MINS, KC_ASTR, KC_SLSH,    KC_EQL,  KC_LPRN, KC_RPRN, KC_4,    KC_5,    KC_6, KC_0,   KC_ENT},
+  {KC_CIRC, KC_AMPR, KC_PIPE, KC_QUESTION,KC_EXLM, KC_LBRC, KC_RBRC, KC_7,    KC_8,    KC_9, _______,KC_RSFT},
+  {KC_TILD, KC_PERC, KC_GRV,  LOWER,      KC_SPC,  KC_LSFT, KC_LSFT, RAISE,   LOWER,KC_PGUP, KC_PGDN,KC_RCTL}
 },
 
 /* Lower
@@ -114,24 +156,41 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   {KC_ESC,  KC_LGUI, KC_LALT, LOWER,   KC_SPC, KC_LSFT,  KC_LSFT, RAISE,   LOWER, KC_PGUP, KC_PGDN, KC_RCTL}
 },
 
-/* Raise
+/* Gherkin Lower
  * ,-----------------------------------------------------------------------------------.
- * |  $   |  _   |  \   |   #  |   @  |  {   |  }   |  1   |  2   |  3   |  .   | Del  |
+ * |      |  '   |   ,  |   .  |  #   | MUTE |BL_TOG|Pg Up | UP   | Pg Dn| Home |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |  +   |  -   |  *   |  /   |  =   |  (   |  )   |  4   |  5   |  6   |  0   | Enter|
+ * |      |  -   |  *   |  /   |  =   | Vol+ |BL_INC| LEFT | DOWN |RIGHT |      |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |  ^   |  &   |  |   |  ?   |  !   |  [   |  ]   |  7   |  8   |  9   |      | Shift|
+ * |      |  ;   |  |   |  ?   |  !   | Vol- |BL_DEC| BSPC |insert| DEL  | End  |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |  ~   |   %  |  `   | Lower|Space |  Shift      |Raise | Lower|Pg Up |Pg Dn | Ctrl |
+ * |      |      |      |      |      |      |      |      |      |      |      |      |
  * `-----------------------------------------------------------------------------------'
  */
-[_RAISE] = {
-  {KC_DLR,  KC_UNDS, KC_BSLS, KC_HASH,    KC_AT,   KC_LCBR, KC_RCBR, KC_1,    KC_2,    KC_3, KC_DOT, KC_DEL},
-  {KC_PLUS, KC_MINS, KC_ASTR, KC_SLSH,    KC_EQL,  KC_LPRN, KC_RPRN, KC_4,    KC_5,    KC_6, KC_0,   KC_ENT},
-  {KC_CIRC, KC_AMPR, KC_PIPE, KC_QUESTION,KC_EXLM, KC_LBRC, KC_RBRC, KC_7,    KC_8,    KC_9, _______,KC_RSFT},
-  {KC_TILD, KC_PERC, KC_GRV,  LOWER,      KC_SPC,  KC_LSFT, KC_LSFT, RAISE,   LOWER,KC_PGUP, KC_PGDN,KC_RCTL}
+[_GHELOW] = {
+  {KC_NO,  KC_QUOT, KC_COMM, KC_DOT,     KC_HASH, KC_MUTE, BL_TOGG, KC_PGUP, KC_UP,  KC_PGDN,KC_HOME,KC_NO},
+  {KC_NO,  KC_MINS, KC_ASTR, KC_SLSH,    KC_EQL,  KC_VOLU, BL_INC,  KC_LEFT, KC_DOWN,KC_RGHT,_______,KC_NO},
+  {KC_NO,  KC_SCLN, KC_PIPE, KC_QUESTION,KC_EXLM, KC_VOLD, BL_DEC,  KC_BSPC, KC_INS, KC_DEL, KC_END, KC_NO},
+  {KC_NO,  KC_NO,   KC_NO,   KC_NO,      KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,  KC_NO,  KC_NO,  KC_NO}
 },
 
+/* Gherkin 3
+ * ,-----------------------------------------------------------------------------------.
+ * |      |  "   |   <  |  >   | \    | MUTE |   F10|  F1  |  F2  |  F3  |      |      |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * |      |  _   |  +   |  ^   |  $   | Vol+ |   F11|  F4  |  F5  |  F6  |      |      |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * |      |  :   |  ~   |   %  |  `   | Vol- |   F12|  F7  |  F8  |  F9  |      |      |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * |      |      |      |      |      |      |      |      |      |      |      |      |
+ * `-----------------------------------------------------------------------------------'
+ */
+[_GHE3] = {
+  {KC_NO,  KC_DQT, KC_LT,   KC_GT,   KC_BSLS,KC_MUTE,  KC_F10,  KC_F1,   KC_F2,   KC_F3,_______,KC_NO},
+  {KC_NO, KC_UNDS, KC_PLUS, KC_CIRC, KC_DLR, KC_VOLU,  KC_F11,  KC_F4,   KC_F5,   KC_F6,_______,KC_NO},
+  {KC_NO, KC_COLN, KC_TILD, KC_PERC, KC_GRV, KC_VOLD,  KC_F12,  KC_F7,   KC_F8,   KC_F9,_______,KC_NO},
+  {KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,  KC_NO,   KC_NO,  KC_NO,   KC_NO,   KC_NO,  KC_NO,KC_NO}
+},
 
 /* Plover layer (http://opensteno.org)
  * ,-----------------------------------------------------------------------------------.
@@ -153,20 +212,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 },
 
 /* Adjust (Lower + Raise)
- * ,-----------------------------------------------------------------------------------.
- * |      | Reset|      |      |      |      |      |      |      |      |      |  Del |
- * |------+------+------+------+------+-------------+------+------+------+------+------|
- * |      |      |      |Aud on|Audoff|AGnorm|AGswap|Qwerty|Colemk|Dvorak|Plover|      |
- * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |      |Voice-|Voice+|Mus on|Musoff|MIDIon|MIDIof|      |      |      |      |      |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |             |      |      |      |      |      |
- * `-----------------------------------------------------------------------------------'
+ * ,-------------------------------------------------------------------------------------------.
+ * |      | Reset|      |      |      |      |      |      |      |              |      |  Del |
+ * |------+------+------+------+------+-------------+------+------+--------------+------+------|
+ * |      |      |      |Aud on|Audoff|AGnorm|AGswap|Qwerty|Colemk|Dvorak        |Plover|      |
+ * |------+------+------+------+------+------|------+------+------+--------------+------+------|
+ * |      |Voice-|Voice+|Mus on|Musoff|MIDIon|MIDIof|      |      |GHERKIN_DVORAK|      |      |
+ * |------+------+------+------+------+------+------+------+------+--------------+------+------|
+ * |      |      |      |      |      |             |      |      |              |      |      |
+ * `-------------------------------------------------------------------------------------------'
  */
 [_ADJUST] = {
   {_______, RESET,   DEBUG,   _______, _______, _______, _______, TERM_ON, TERM_OFF,_______, _______, KC_DEL },
   {_______, _______, MU_MOD,  AU_ON,   AU_OFF,  AG_NORM, AG_SWAP, QWERTY,  COLEMAK, DVORAK,  PLOVER,  _______},
-  {_______, MUV_DE,  MUV_IN,  MU_ON,   MU_OFF,  MI_ON,   MI_OFF,  _______, _______, _______, _______, _______},
+  {_______, MUV_DE,  MUV_IN,  MU_ON,   MU_OFF,  MI_ON,   MI_OFF,  _______, _______, GHERKIN_DVORAK, _______, _______},
   {_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______}
 }
 
@@ -199,6 +258,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
       break;
+    case GHERKIN_DVORAK:
+      if (record->event.pressed) {
+        set_single_persistent_default_layer(_GHERKIN_DVORAK);
+      }
+      return false;
+      break;
+    case RAISE:
+      if (record->event.pressed) {
+        layer_on(_RAISE);
+        update_tri_layer(_LOWER, _RAISE, _ADJUST);
+      } else {
+        layer_off(_RAISE);
+        update_tri_layer(_LOWER, _RAISE, _ADJUST);
+      }
+      return false;
+      break;
     case LOWER:
       if (record->event.pressed) {
         layer_on(_LOWER);
@@ -209,12 +284,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
       break;
-    case RAISE:
+    case GHELOW:
       if (record->event.pressed) {
-        layer_on(_RAISE);
+        layer_on(_GHELOW);
         update_tri_layer(_LOWER, _RAISE, _ADJUST);
       } else {
-        layer_off(_RAISE);
+        layer_off(_GHELOW);
+        update_tri_layer(_LOWER, _RAISE, _ADJUST);
+      }
+      return false;
+      break;
+    case GHE3:
+      if (record->event.pressed) {
+        layer_on(_GHE3);
+        update_tri_layer(_LOWER, _RAISE, _ADJUST);
+      } else {
+        layer_off(_GHE3);
         update_tri_layer(_LOWER, _RAISE, _ADJUST);
       }
       return false;
