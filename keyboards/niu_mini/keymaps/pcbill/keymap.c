@@ -52,6 +52,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * | Esc  | GUI  | Alt  | Lower|Space |  Shift      |Raise | Lower| Alt  |  App | Ctrl |
  * `-----------------------------------------------------------------------------------'
+KC_QUOT
  */
 [_QWERTY] = {
   {KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_F,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC},
