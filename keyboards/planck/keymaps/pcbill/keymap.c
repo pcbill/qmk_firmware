@@ -30,6 +30,10 @@ enum planck_layers {
   _GHE3,
   _PLOVER,
   _ADJUST,
+  _SPGHEDOV,
+  _SPGHE1,
+  _SPGHE2,
+  _SPGHE3
 };
 
 enum planck_keycodes {
@@ -43,7 +47,11 @@ enum planck_keycodes {
   GHE3,
   PLOVER,
   BACKLIT,
-  EXT_PLV
+  EXT_PLV,
+  SPGHEDOV,
+  SPGHE1,
+  SPGHE2,
+  SPGHE3
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -162,7 +170,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      |  -   |  *   |  /   |  =   |  (   |  )   | LEFT | DOWN |RIGHT |      |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |  ;   |  |   |  ?   |  !   |  [   |  ]   | BSPC |insert| DEL  | End  |      |
+ * |      |  ;   |  |   |  ?   |  !   |  [   |  ]   | BSPC | DEL  |insert| End  |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      |      |      |      |      |      |      |      |      |      |      |      |
  * `-----------------------------------------------------------------------------------'
@@ -170,7 +178,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_GHELOW] = {
   {KC_NO,  KC_QUOT, KC_COMM, KC_DOT,     KC_HASH, KC_LCBR, KC_RCBR,  KC_PGUP, KC_UP,  KC_PGDN,KC_HOME,KC_NO},
   {KC_NO,  KC_MINS, KC_ASTR, KC_SLSH,    KC_EQL,  KC_LPRN, KC_RPRN,  KC_LEFT, KC_DOWN,KC_RGHT,_______,KC_NO},
-  {KC_NO,  KC_SCLN, KC_PIPE, KC_QUESTION,KC_EXLM, KC_LBRC, KC_RBRC,  KC_BSPC, KC_INS, KC_DEL, KC_END, KC_NO},
+  {KC_NO,  KC_SCLN, KC_PIPE, KC_QUESTION,KC_EXLM, KC_LBRC, KC_RBRC,  KC_BSPC, KC_DEL, KC_INS, KC_END, KC_NO},
   {KC_NO,  KC_NO,   KC_NO,   KC_NO,      KC_NO,   KC_NO,   KC_NO,    KC_NO,   KC_NO,  KC_NO,  KC_NO,  KC_NO}
 },
 
@@ -219,16 +227,88 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|------+------+------+--------------+------+------|
  * |      |Voice-|Voice+|Mus on|Musoff|MIDIon|MIDIof|      |      |GHERKIN_DVORAK|      |      |
  * |------+------+------+------+------+------+------+------+------+--------------+------+------|
- * |      |      |      |      |      |             |      |      |              |      |      |
+ * |      |      |      |      |      |             |      |      | SPGHEDOV     |      |      |
  * `-------------------------------------------------------------------------------------------'
  */
 [_ADJUST] = {
   {_______, RESET,   DEBUG,   _______, _______, _______, _______, TERM_ON, TERM_OFF,_______, _______, KC_DEL },
   {_______, _______, MU_MOD,  AU_ON,   AU_OFF,  AG_NORM, AG_SWAP, QWERTY,  COLEMAK, DVORAK,  PLOVER,  _______},
-  {_______, MUV_DE,  MUV_IN,  MU_ON,   MU_OFF,  MI_ON,   MI_OFF,  _______, _______, GHERKIN_DVORAK, _______, _______},
+  {_______, MUV_DE,  MUV_IN,  MU_ON,   MU_OFF,  MI_ON,   MI_OFF,  _______, SPGHEDOV, GHERKIN_DVORAK, _______, _______},
   {_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______}
-}
+},
 
+
+/* Split Gherkin Dvorak
+ * ,----------------------------------------------------------------------------------------------.
+ * |        |         |         |      |      |Raise | Lower|      |       |      |      |        |
+ * |--------+---------+---------+------+------+------+------+------+-------+------+------+--------|
+ * |tab     |space/alt| ent/ctrl|   P  |   Y  |      |      |   F  |   G   |   C  |   R  |L/SPGHE1|
+ * |--------+---------+---------+------+------+------+------+------+-------+------+------+--------|
+ * |A       |   O     |   E     |   U  |   I  |      |      |   D  |   H   |   T  |   N  |S/SPGHE2|
+ * |--------+---------+---------+------+------+------+------+------+-------+------+------+--------|
+ * |esc/sft |   Q/gui |    J    |   K  |   X  |      |      |   B  |   M   |   W  |   V  |Z/SPGHE3|
+ * `----------------------------------------------------------------------------------------------'
+ */
+[_SPGHEDOV] = {
+  {KC_NO,              KC_NO,KC_NO,         KC_NO,  KC_NO,RAISE,LOWER, KC_NO,   KC_NO, KC_NO,  KC_NO,        KC_NO},
+  {KC_TAB,     ALT_T(KC_SPC),CTL_T(KC_ENT), KC_P,   KC_Y, KC_NO,KC_NO, KC_F,    KC_G,   KC_C,   KC_R,   LT(11,KC_L)},
+  {KC_A,                KC_O,KC_E,          KC_U,   KC_I, KC_NO,KC_NO, KC_D,    KC_H,   KC_T,   KC_N,   LT(12,KC_S)},
+  {SFT_T(KC_ESC),GUI_T(KC_Q),KC_J,          KC_K,   KC_X, KC_NO,KC_NO, KC_B,    KC_M,   KC_W,   KC_V,   LT(13,KC_Z)}
+},
+
+/* SPGHE1
+ * ,-----------------------------------------------------------------------------------.
+ * |      |      |      |      |      |      |      |      |      |      |      |      |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * |  "   |   <  |  >   |   @  |  {   |      |      |  }   |  1   |  2   |  3   |      |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * |  -   |  *   |  /   |  =   |  (   |      |      |  )   |  4   |  5   |  6   |  0   |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * |  :   |  |   |  ?   |  !   |  [   |             |  ]   |  7   |  8   |  9   |      |
+ * `-----------------------------------------------------------------------------------'
+ */
+[_SPGHE1] = {
+  {KC_NO,   KC_NO,   KC_NO,      KC_NO,   KC_NO,  KC_NO,KC_NO, KC_NO,   KC_NO,  KC_NO,    KC_NO,KC_NO  },
+  {KC_DQT,  KC_LT,   KC_GT,      KC_AT,   KC_LCBR,KC_NO,KC_NO, KC_RCBR, KC_1,    KC_2,    KC_3, _______},
+  {KC_MINS, KC_ASTR, KC_SLSH,    KC_EQL,  KC_LPRN,KC_NO,KC_NO, KC_RPRN, KC_4,    KC_5,    KC_6, KC_0   },
+  {KC_COLN, KC_PIPE, KC_QUESTION,KC_EXLM, KC_LBRC,KC_NO,KC_NO, KC_RBRC, KC_7,    KC_8,    KC_9, _______}
+}, 
+
+/* _SPGHE2
+ * ,-----------------------------------------------------------------------------------.
+ * |      |      |      |      |      |      |      |      |      |      |      |      |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * |  '   |   ,  |   .  |  #   |  {   |      |      |  }   |Pg Up | UP   | Pg Dn| Home |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * |  -   |  *   |  /   |  =   |  (   |      |      |  )   | LEFT | DOWN |RIGHT |      |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * |  ;   |  |   |  ?   |  !   |  [   |      |      |  ]   | BSPC | DEL  |insert| End  |
+ * `-----------------------------------------------------------------------------------'
+ */
+[_SPGHE2] = {
+  { KC_NO,   KC_NO,   KC_NO,      KC_NO,   KC_NO,   KC_NO, KC_NO, KC_NO,    KC_NO,   KC_NO,  KC_NO,  KC_NO,  },
+  { KC_QUOT, KC_COMM, KC_DOT,     KC_HASH, KC_LCBR, KC_NO, KC_NO, KC_RCBR,  KC_PGUP, KC_UP,  KC_PGDN,KC_HOME,},
+  { KC_MINS, KC_ASTR, KC_SLSH,    KC_EQL,  KC_LPRN, KC_NO, KC_NO, KC_RPRN,  KC_LEFT, KC_DOWN,KC_RGHT,_______,},
+  { KC_SCLN, KC_PIPE, KC_QUESTION,KC_EXLM, KC_LBRC, KC_NO, KC_NO, KC_RBRC,  KC_BSPC, KC_DEL, KC_INS, KC_END, }
+},
+
+/* _SPGHE3
+ * ,-----------------------------------------------------------------------------------.
+ * |      |      |      |      |      |      |      |      |      |      |      |      |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * |  Caps|  ,   |  .   | \    | MUTE |      |      |   F10|  F1  |  F2  |  F3  |      |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * |  _   |  +   |  ^   |  $   | Vol+ |      |      |   F11|  F4  |  F5  |  F6  |      |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * |  `   |  ~   |   %  |  &   | Vol- |      |      |   F12|  F7  |  F8  |  F9  |      |
+ * `-----------------------------------------------------------------------------------'
+ */
+[_SPGHE3] = {
+  {  KC_NO,   KC_NO,   KC_NO,   KC_NO,  KC_NO,KC_NO,KC_NO,     KC_NO,  KC_NO,   KC_NO,   KC_NO,  KC_NO},
+  {KC_CAPS, KC_LT,   KC_GT,   KC_BSLS,KC_MUTE,KC_NO,KC_NO,    KC_F10,  KC_F1,   KC_F2,   KC_F3,_______},
+  {KC_UNDS, KC_PLUS, KC_CIRC, KC_DLR, KC_VOLU,KC_NO,KC_NO,    KC_F11,  KC_F4,   KC_F5,   KC_F6,_______},
+  {KC_GRV, KC_TILD, KC_PERC, KC_AMPR, KC_VOLD,KC_NO,KC_NO,    KC_F12,  KC_F7,   KC_F8,   KC_F9,_______}
+}
 
 };
 
@@ -264,6 +344,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
       break;
+    case SPGHEDOV:
+      if (record->event.pressed) {
+        set_single_persistent_default_layer(_SPGHEDOV);
+      }
+      return false;
+      break;
     case RAISE:
       if (record->event.pressed) {
         layer_on(_RAISE);
@@ -287,20 +373,40 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case GHELOW:
       if (record->event.pressed) {
         layer_on(_GHELOW);
-        update_tri_layer(_LOWER, _RAISE, _ADJUST);
       } else {
         layer_off(_GHELOW);
-        update_tri_layer(_LOWER, _RAISE, _ADJUST);
       }
       return false;
       break;
     case GHE3:
       if (record->event.pressed) {
         layer_on(_GHE3);
-        update_tri_layer(_LOWER, _RAISE, _ADJUST);
       } else {
         layer_off(_GHE3);
-        update_tri_layer(_LOWER, _RAISE, _ADJUST);
+      }
+      return false;
+      break;
+    case SPGHE1:
+      if (record->event.pressed) {
+        layer_on(_SPGHE1);
+      } else {
+        layer_off(_SPGHE1);
+      }
+      return false;
+      break;
+    case SPGHE2:
+      if (record->event.pressed) {
+        layer_on(_SPGHE2);
+      } else {
+        layer_off(_SPGHE2);
+      }
+      return false;
+      break;
+    case SPGHE3:
+      if (record->event.pressed) {
+        layer_on(_SPGHE3);
+      } else {
+        layer_off(_SPGHE3);
       }
       return false;
       break;
