@@ -166,7 +166,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Gherkin Lower
  * ,-----------------------------------------------------------------------------------.
- * |      |  '   |   ,  |   .  |  #   |  {   |  }   |Pg Up | UP   | Pg Dn| Home |      |
+ * |      |  '   |   ,  |   .  |  @   |  {   |  }   |Pg Up | UP   | Pg Dn| Home |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      |  -   |  *   |  /   |  =   |  (   |  )   | LEFT | DOWN |RIGHT |      |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
@@ -176,7 +176,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_GHELOW] = {
-  {KC_NO,  KC_QUOT, KC_COMM, KC_DOT,     KC_HASH, KC_LCBR, KC_RCBR,  KC_PGUP, KC_UP,  KC_PGDN,KC_HOME,KC_NO},
+  {KC_NO,  KC_QUOT, KC_COMM, KC_DOT,     KC_AT, KC_LCBR, KC_RCBR,  KC_PGUP, KC_UP,  KC_PGDN,KC_HOME,KC_NO},
   {KC_NO,  KC_MINS, KC_ASTR, KC_SLSH,    KC_EQL,  KC_LPRN, KC_RPRN,  KC_LEFT, KC_DOWN,KC_RGHT,_______,KC_NO},
   {KC_NO,  KC_SCLN, KC_PIPE, KC_QUESTION,KC_EXLM, KC_LBRC, KC_RBRC,  KC_BSPC, KC_DEL, KC_INS, KC_END, KC_NO},
   {KC_NO,  KC_NO,   KC_NO,   KC_NO,      KC_NO,   KC_NO,   KC_NO,    KC_NO,   KC_NO,  KC_NO,  KC_NO,  KC_NO}
@@ -184,7 +184,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Gherkin 3
  * ,-----------------------------------------------------------------------------------.
- * |      |  "   |   <  |  >   | \    | MUTE |   F10|  F1  |  F2  |  F3  |      |      |
+ * |      |  "   |   <  |  >   |Caps  | MUTE |   F10|  F1  |  F2  |  F3  |      |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      |  _   |  +   |  ^   |  $   | Vol+ |   F11|  F4  |  F5  |  F6  |      |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
@@ -194,7 +194,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_GHE3] = {
-  {KC_NO,  KC_DQT, KC_LT,   KC_GT,   KC_BSLS,KC_MUTE,  KC_F10,  KC_F1,   KC_F2,   KC_F3,_______,KC_NO},
+  {KC_NO,  KC_DQT, KC_LT,   KC_GT,   KC_CAPS,KC_MUTE,  KC_F10,  KC_F1,   KC_F2,   KC_F3,_______,KC_NO},
   {KC_NO, KC_UNDS, KC_PLUS, KC_CIRC, KC_DLR, KC_VOLU,  KC_F11,  KC_F4,   KC_F5,   KC_F6,_______,KC_NO},
   {KC_NO, KC_COLN, KC_TILD, KC_PERC, KC_GRV, KC_VOLD,  KC_F12,  KC_F7,   KC_F8,   KC_F9,_______,KC_NO},
   {KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,  KC_NO,   KC_NO,  KC_NO,   KC_NO,   KC_NO,  KC_NO,KC_NO}
