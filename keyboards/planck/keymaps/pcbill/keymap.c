@@ -93,21 +93,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 },
 
 /* Dvorak
- * ,-----------------------------------------------------------------------------------.
- * | Tab  |   '  |   ,  |   .  |   P  |   Y  |   F  |   G  |   C  |   R  |   L  | Bksp |
- * |------+------+------+------+------+-------------+------+------+------+------+------|
- * | Ctrl |   A  |   O  |   E  |   U  |   I  |   D  |   H  |   T  |   N  |   S  | Enter|
- * |------+------+------+------+------+------|------+------+------+------+------+------|
- * | Shift|   ;  |   Q  |   J  |   K  |   X  |   B  |   M  |   W  |   V  |   Z  | Shift|
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Esc  | GUI  | Alt  | Lower|Space |  Shift      |Raise | Lower| Pg Up|Pg Dn | Ctrl |
- * `-----------------------------------------------------------------------------------'
+ * ,---------------------------------------------------------------------------------------.
+ * | Tab  |   '  |   ,  |   .  |   P       |Y  |F  |   G     |   C  |   R  |   L    | Bksp |
+ * |------+------+------+------+-----------+---+---+---------+------+------+--------+------|
+ * | Ctrl |   A  |   O  |   E  |   U       |I  |D  |   H     |   T  |   N  |S/ghelow| Enter|
+ * |------+------+------+------+-----------+---+---+---------+------+------+--------+------|
+ * | Shift|   ;  |   Q  |   J  |   K       |X  |B  |   M     |   W  |   V  |   Z    | Shift|
+ * |------+------+------+------+-----------+---+---+---------+------+------+--------+------|
+ * | Esc  | GUI  | Alt  | Lower|Space/Raise|Shift  |Ent/Raise| Lower| Pg Up|Pg Dn   | Ctrl |
+ * `---------------------------------------------------------------------------------------'
  */
 [_DVORAK] = {
-  {KC_TAB,  KC_QUOT, KC_COMM, KC_DOT,  KC_P,    KC_Y,    KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    KC_BSPC},
-  {KC_LCTL, KC_A,    KC_O,    KC_E,    KC_U,    KC_I,    KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    KC_ENT },
-  {KC_LSFT, KC_SCLN, KC_Q,    KC_J,    KC_K,    KC_X,    KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,    KC_RSFT},
-  {KC_ESC,  KC_LGUI, KC_LALT, LOWER,   KC_SPC,  KC_LSFT, KC_LSFT, RAISE,   LOWER, KC_PGUP, KC_PGDN,   KC_RCTL}
+  {KC_TAB,  KC_QUOT, KC_COMM, KC_DOT,  KC_P,     KC_Y,    KC_F,    KC_G,        KC_C,    KC_R, KC_L,      KC_BSPC},
+  {KC_LCTL, KC_A,    KC_O,    KC_E,    KC_U,     KC_I,    KC_D,    KC_H,        KC_T,    KC_N, LT(6,KC_S),KC_ENT },
+  {KC_LSFT, KC_SCLN, KC_Q,    KC_J,    KC_K,     KC_X,    KC_B,    KC_M,        KC_W,    KC_V, KC_Z,      KC_RSFT},
+  {KC_ESC,  KC_LGUI, KC_LALT, LOWER,LT(4,KC_SPC),KC_LSFT, KC_LSFT, LT(4,KC_ENT),LOWER, KC_PGUP,KC_PGDN,   KC_RCTL}
 },
 
 /* Gherkin Dvorak
