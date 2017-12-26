@@ -96,7 +96,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,----------------------------------------------------------------------------------------------------------.
  * | Tab  |   '   |  ,    |   .     |   P       |Y   |F   |   G       |   C      | R      |   L        | Bksp |
  * |------+-------+-------+---------+-----------+----+----+-----------+----------+--------+------------+------|
- * | Ctrl |A/Ctrl |  O    |   E     |   U       |I   |D   |   H       |   T      | N      |S/ghelow    | Enter|
+ * | Ctrl |   A   |  O    |   E     |   U       |I   |D   |   H       |   T      | N      |      S     | Enter|
  * |------+----- -+-------+---------+-----------+----+----+-----------+----------+--------+------------+------|
  * | Shift|   ;   |  Q    |   J     |   K       |X   |B   |   M       |   W      | V      |   Z        | Shift|
  * |------+-------+-------+---------+-----------+----+----+-----------+----------+--------+------------+------|
@@ -105,7 +105,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [_DVORAK] = {
   {KC_TAB, KC_QUOT,      KC_COMM,KC_DOT,      KC_P,        KC_Y,         KC_F,         KC_G,        KC_C,         KC_R,   KC_L,      KC_BSPC},
-  {KC_LCTL,CTL_T(KC_A),  KC_O,   KC_E,        KC_U,        KC_I,         KC_D,         KC_H,        KC_T,         KC_N,   LT(6,KC_S),KC_ENT },
+  {KC_LCTL,KC_A,         KC_O,   KC_E,        KC_U,        KC_I,         KC_D,         KC_H,        KC_T,         KC_N,   KC_S,      KC_ENT },
   {KC_LSFT,KC_SCLN,      KC_Q,   KC_J,        KC_K,        KC_X,         KC_B,         KC_M,        KC_W,         KC_V,   KC_Z,      KC_RSFT},
   {KC_ESC, GUI_T(KC_ESC),ALT_T(KC_DEL),LT(5,KC_TAB),LT(4,KC_SPC),SFT_T(KC_ENT),SFT_T(KC_ENT),LT(4,KC_SPC),LT(5,KC_PGUP),ALT_T(KC_PGDN),CTL_T(KC_BSPC),KC_RCTL}
 },
