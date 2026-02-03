@@ -35,7 +35,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "host.h"
 #include "keyboard.h"
 
-
 /* KEY CODE to Matrix
  *
  * HID keycode(1 byte):
@@ -55,16 +54,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #define ROW_MASK 0xF0
 #define COL_MASK 0x0F
-#define CODE(row, col)  (((row) << 4) | (col))
-#define ROW(code)       (((code) & ROW_MASK) >> 4)
-#define COL(code)       ((code) & COL_MASK)
-#define ROW_BITS(code)  (1 << COL(code))
-
+#define CODE(row, col) (((row) << 4) | (col))
+#define ROW(code)      (((code) & ROW_MASK) >> 4)
+#define COL(code)      ((code) & COL_MASK)
+#define ROW_BITS(code) (1 << COL(code))
 
 // Integrated key state of all keyboards
-static report_keyboard_t keyboard_report;
-
-static bool matrix_is_mod = false;
+static report_keyboard_t local_keyboard_report;
 
 /*
  * USB Host Shield HID keyboards
@@ -73,18 +69,16 @@ static bool matrix_is_mod = false;
 USB usb_host;
 USBHub hub1(&usb_host);
 USBHub hub2(&usb_host);
-HIDBoot<HID_PROTOCOL_KEYBOARD>    kbd1(&usb_host);
-HIDBoot<HID_PROTOCOL_KEYBOARD>    kbd2(&usb_host);
-HIDBoot<HID_PROTOCOL_KEYBOARD>    kbd3(&usb_host);
-HIDBoot<HID_PROTOCOL_KEYBOARD>    kbd4(&usb_host);
+HIDBoot<HID_PROTOCOL_KEYBOARD> kbd1(&usb_host);
+HIDBoot<HID_PROTOCOL_KEYBOARD> kbd2(&usb_host);
+HIDBoot<HID_PROTOCOL_KEYBOARD> kbd3(&usb_host);
+HIDBoot<HID_PROTOCOL_KEYBOARD> kbd4(&usb_host);
 KBDReportParser kbd_parser1;
 KBDReportParser kbd_parser2;
 KBDReportParser kbd_parser3;
 KBDReportParser kbd_parser4;
 
-
-extern "C"
-{
+extern "C" {
     uint8_t matrix_rows(void) { return MATRIX_ROWS; }
     uint8_t matrix_cols(void) { return MATRIX_COLS; }
     bool matrix_has_ghost(void) { return false; }
@@ -95,16 +89,17 @@ extern "C"
         kbd2.SetReportParser(0, (HIDReportParser*)&kbd_parser2);
         kbd3.SetReportParser(0, (HIDReportParser*)&kbd_parser3);
         kbd4.SetReportParser(0, (HIDReportParser*)&kbd_parser4);
+        matrix_init_kb();
     }
 
     static void or_report(report_keyboard_t report) {
-        // integrate reports into keyboard_report
-        keyboard_report.mods |= report.mods;
+        // integrate reports into local_keyboard_report
+        local_keyboard_report.mods |= report.mods;
         for (uint8_t i = 0; i < KEYBOARD_REPORT_KEYS; i++) {
             if (IS_ANY(report.keys[i])) {
                 for (uint8_t j = 0; j < KEYBOARD_REPORT_KEYS; j++) {
-                    if (! keyboard_report.keys[j]) {
-                        keyboard_report.keys[j] = report.keys[i];
+                    if (! local_keyboard_report.keys[j]) {
+                        local_keyboard_report.keys[j] = report.keys[i];
                         break;
                     }
                 }
@@ -112,7 +107,26 @@ extern "C"
         }
     }
 
+    __attribute__ ((weak))
+    void matrix_init_kb(void) {
+        matrix_init_user();
+    }
+
+    __attribute__ ((weak))
+    void matrix_init_user(void) {
+    }
+
+    __attribute__ ((weak))
+    void matrix_scan_kb(void) {
+        matrix_scan_user();
+    }
+
+    __attribute__ ((weak))
+    void matrix_scan_user(void) {
+    }
+
     uint8_t matrix_scan(void) {
+        bool changed = false;
         static uint16_t last_time_stamp1 = 0;
         static uint16_t last_time_stamp2 = 0;
         static uint16_t last_time_stamp3 = 0;
@@ -130,21 +144,19 @@ extern "C"
             last_time_stamp4 = kbd_parser4.time_stamp;
 
             // clear and integrate all reports
-            keyboard_report = {};
+            local_keyboard_report = {};
             or_report(kbd_parser1.report);
             or_report(kbd_parser2.report);
             or_report(kbd_parser3.report);
             or_report(kbd_parser4.report);
 
-            matrix_is_mod = true;
+            changed = true;
 
-            dprintf("state:  %02X %02X", keyboard_report.mods, keyboard_report.reserved);
+            dprintf("state:  %02X %02X", local_keyboard_report.mods, local_keyboard_report.reserved);
             for (uint8_t i = 0; i < KEYBOARD_REPORT_KEYS; i++) {
-                dprintf(" %02X", keyboard_report.keys[i]);
+                dprintf(" %02X", local_keyboard_report.keys[i]);
             }
             dprint("\r\n");
-        } else {
-            matrix_is_mod = false;
         }
 
         uint16_t timer;
@@ -163,26 +175,23 @@ extern "C"
             // restore LED state when keyboard comes up
             if (usb_state == USB_STATE_RUNNING) {
                 dprintf("speed: %s\n", usb_host.getVbusState()==FSHOST ? "full" : "low");
-                keyboard_set_leds(host_keyboard_leds());
+                led_set(host_keyboard_leds());
             }
         }
-        return 1;
-    }
-
-    bool matrix_is_modified(void) {
-        return matrix_is_mod;
+        matrix_scan_kb();
+        return changed;
     }
 
     bool matrix_is_on(uint8_t row, uint8_t col) {
         uint8_t code = CODE(row, col);
 
-        if (IS_MOD(code)) {
-            if (keyboard_report.mods & ROW_BITS(code)) {
+        if (IS_MODIFIER_KEYCODE(code)) {
+            if (local_keyboard_report.mods & ROW_BITS(code)) {
                 return true;
             }
         }
         for (uint8_t i = 0; i < KEYBOARD_REPORT_KEYS; i++) {
-            if (keyboard_report.keys[i] == code) {
+            if (local_keyboard_report.keys[i] == code) {
                 return true;
             }
         }
@@ -192,30 +201,18 @@ extern "C"
     matrix_row_t matrix_get_row(uint8_t row) {
         uint16_t row_bits = 0;
 
-        if (IS_MOD(CODE(row, 0)) && keyboard_report.mods) {
-            row_bits |= keyboard_report.mods;
+        if (IS_MODIFIER_KEYCODE(CODE(row, 0)) && local_keyboard_report.mods) {
+            row_bits |= local_keyboard_report.mods;
         }
 
         for (uint8_t i = 0; i < KEYBOARD_REPORT_KEYS; i++) {
-            if (IS_ANY(keyboard_report.keys[i])) {
-                if (row == ROW(keyboard_report.keys[i])) {
-                    row_bits |= ROW_BITS(keyboard_report.keys[i]);
+            if (IS_ANY(local_keyboard_report.keys[i])) {
+                if (row == ROW(local_keyboard_report.keys[i])) {
+                    row_bits |= ROW_BITS(local_keyboard_report.keys[i]);
                 }
             }
         }
         return row_bits;
-    }
-
-    uint8_t matrix_key_count(void) {
-        uint8_t count = 0;
-
-        count += bitpop(keyboard_report.mods);
-        for (uint8_t i = 0; i < KEYBOARD_REPORT_KEYS; i++) {
-            if (IS_ANY(keyboard_report.keys[i])) {
-                count++;
-            }
-        }
-        return count;
     }
 
     void matrix_print(void) {
@@ -227,12 +224,11 @@ extern "C"
         }
     }
 
-    void led_set(uint8_t usb_led)
-    {
-        kbd1.SetReport(0, 0, 2, 0, 1, &usb_led);
-        kbd2.SetReport(0, 0, 2, 0, 1, &usb_led);
-        kbd3.SetReport(0, 0, 2, 0, 1, &usb_led);
-        kbd4.SetReport(0, 0, 2, 0, 1, &usb_led);
+    void led_set(uint8_t usb_led) {
+        if (kbd1.isReady()) kbd1.SetReport(0, 0, 2, 0, 1, &usb_led);
+        if (kbd2.isReady()) kbd2.SetReport(0, 0, 2, 0, 1, &usb_led);
+        if (kbd3.isReady()) kbd3.SetReport(0, 0, 2, 0, 1, &usb_led);
+        if (kbd4.isReady()) kbd4.SetReport(0, 0, 2, 0, 1, &usb_led);
+        led_update_kb((led_t){.raw = usb_led});
     }
-
-};
+}
